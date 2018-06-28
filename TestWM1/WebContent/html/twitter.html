@@ -1,0 +1,112 @@
+
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="es">
+	<head profile="http://gmpg.org/xfn/11">
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta charset="UTF-8" />
+		
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<title>Demos</title>
+		
+		<meta http-equiv="imagetoolbar" content="no" />
+		<meta name="viewport" content="width=device-width" />
+		
+		<link href="../res/css/reset.css" rel="stylesheet" type="text/css" media="all" />
+		<link href="../res/css/layout.css" rel="stylesheet" type="text/css" media="all" />
+		
+		<style type="text/css">
+			span.max {color:blue;}
+			.valid {color:green;}
+			.no-valid {color:red !important;}
+		</style>
+		
+		<script type="text/javascript">
+		/* <![CDATA[ */
+			setTimeout(function(){
+				var textbox = document.getElementById("textbox");
+				var face = document.getElementById("face");
+				var current = document.getElementById("current");
+				var send = document.getElementById("send");
+				
+				face.style.left = (textbox.parentElement.offsetWidth-23)+"px";
+				face.onclick = function () {alert("Lo siento, no funcionan los emojis en este momento");};
+				
+				send.onclick = function () {
+					if (textbox.value.length > 150) {
+						alert ("Demasiados caracteres");
+						return;
+					}
+					var s = confirm("¿Enviar a Twitter?");
+					if (s) {
+						alert ("Entonces copia y pega en Twitter  :D");
+					}
+				};
+				
+				textbox.onfocus = function () {
+					if (!this.parentElement.className.match(/focused/ig))
+						this.parentElement.className = this.parentElement.className+" focused";
+				};
+				textbox.onblur = function () {
+					if (this.parentElement.className.match(/focused/ig))
+						this.parentElement.className = this.parentElement.className.replace(/(^|\s+)focused($|\s+)/i,"");
+				};
+				textbox.onkeypress = function () {
+					setTimeout(function(){applyColors();},100);
+				};
+				textbox.ondrop = function () {
+					setTimeout(function(){applyColors();},100);
+				};
+				textbox.onpaste = function () {
+					setTimeout(function(){applyColors();},100);
+				};
+				
+				applyColors ();
+			},200);
+			
+			function applyColors () {
+				var textbox = document.getElementById("textbox");
+				var current = document.getElementById("current");
+				
+				current.innerHTML = textbox.value.length;
+				
+				if (textbox.value.length <= 150) {
+					if (current.className.match(/(^|\s+)no-valid($|\s+)/ig)) {
+						current.className = current.className.replace(/(^|\s+)no-valid($|\s+)/ig," valid ");
+					}
+					if (textbox.className.match(/(^|\s+)no-valid($|\s+)/ig)) {
+						textbox.className = textbox.className.replace(/(^|\s+)no-valid($|\s+)/ig,"");
+					}
+				} else {
+					if (current.className.match(/(^|\s+)valid($|\s+)/ig)) {
+						current.className = current.className.replace(/(^|\s+)valid($|\s+)/ig," no-valid ");
+					}
+					if (!textbox.className.match(/(^|\s+)no-valid($|\s+)/ig)) {
+						textbox.className = textbox.className+" no-valid";
+					}
+				}
+			}
+		/* ]]> */
+		</script>
+
+		
+	</head>
+	<body>
+		<div id="wrapper">
+			<div id="container">
+				<h1 class="center title">Caja de comentarios</h1>
+				<div class="content">
+					<div class="width-30">
+						<span>Escribe tu comentario:</span>
+						<div class="control-textarea" style="position:relative;">
+							<textarea id="textbox" rows="5" cols="40" class="width-95"></textarea>
+							<img id="face" src="../res/img/face.png" class="float-right cursor-pointer" style="height:20px;position:absolute;top:1px;left:100%;" />
+							<div class="clear"></div>
+						</div>
+						<span><span id="current" class="bold valid">0</span> caracteres de <span class="max bold">150</span> disponibles</span>
+					</div>
+					<a id="send" class="a-button">Enviar</a>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

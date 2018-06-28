@@ -1,0 +1,128 @@
+
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="es">
+	<head profile="http://gmpg.org/xfn/11">
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta charset="UTF-8" />
+		
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<title>Demos</title>
+		
+		<meta http-equiv="imagetoolbar" content="no" />
+		<meta name="viewport" content="width=device-width" />
+		
+		<link href="../res/css/reset.css" rel="stylesheet" type="text/css" media="all" />
+		<link href="../res/css/layout.css" rel="stylesheet" type="text/css" media="all" />
+		
+		<style type="text/css">
+			img.move {cursor:pointer;}
+		</style>
+		
+		<script type="text/javascript">
+		/* <![CDATA[ */
+			setTimeout(function(){
+				document.imgArray = [];
+				var left = document.getElementById("left");
+				var right = document.getElementById("right");
+				var main = document.getElementById("imgA");
+				var aux = document.getElementById("imgB");
+				
+				document.imgArray[0] = new Image ();
+				document.imgArray[0].src = "../res/img/img1.jpg";
+				
+				document.imgArray[1] = new Image ();
+				document.imgArray[1].src = "../res/img/img2.jpg";
+				
+				document.imgArray[2] = new Image ();
+				document.imgArray[2].src = "../res/img/img3.jpg";
+				
+				document.imgArray[3] = new Image ();
+				document.imgArray[3].src = "../res/img/img4.jpg";
+				
+				document.imgArray[4] = new Image ();
+				document.imgArray[4].src = "../res/img/img5.jpg";
+				
+				left.onclick = function () {
+					moveImg(-1);
+				};
+				right.onclick = function () {
+					moveImg(1);
+				};
+				
+				document.currentImg = 0;
+				document.mainImg = "A";
+				main.src = document.imgArray[document.currentImg].src;
+			},200);
+		
+			function moveImg (i) {
+				var main = new Image();
+				var aux = new Image();
+				
+				if (document.mainImg.match(/A/i)) {
+					main = document.getElementById("imgA");
+					aux = document.getElementById("imgB");
+				} else {
+					main = document.getElementById("imgB");
+					aux = document.getElementById("imgA");
+				}
+				
+				aux.style.left = (-i*300)+"px";
+				
+				var n = document.currentImg+i;
+				if (n>=document.imgArray.length) n = 0;
+				else if (n<0) n = document.imgArray.length - 1;
+				document.currentImg = n;
+					
+				aux.src = document.imgArray[n].src;
+				
+				document.animator = setInterval(function(){
+					main.style.left = (parseInt(main.style.left.replace(/px/ig,"")) + (i*5))+"px";
+					aux.style.left = (parseInt(aux.style.left.replace(/px/ig,"")) + (i*5))+"px";
+					
+					if (i>0) {
+						main.style.clip = "rect(0px,"+(300-parseInt(main.style.left.replace(/px/ig,"")))+"px,168px,0px)";
+						aux.style.clip = "rect(0px,300px,168px,"+(300-parseInt(main.style.left.replace(/px/ig,"")))+"px)";
+					} else {
+						main.style.clip = "rect(0px,300px,168px,"+(300-parseInt(aux.style.left.replace(/px/ig,"")))+"px)";
+						aux.style.clip = "rect(0px,"+(300-parseInt(aux.style.left.replace(/px/ig,"")))+"px,168px,0px)";
+					}
+					
+					
+					if (parseInt(aux.style.left.replace(/px/ig,"")) == 0) {
+						if (document.mainImg.match(/A/i)) {
+							document.mainImg = "B";
+						} else {
+							document.mainImg = "A";
+						}
+						clearInterval (document.animator);
+					}
+				},10);
+			}
+		/* ]]> */
+		</script>
+
+		
+	</head>
+	<body>
+		<div id="wrapper">
+			<div id="container">
+				<h1 class="center title">Carrousel de imágenes</h1>
+				<div class="content">
+					<div class="width-80" style="margin:0 auto;">
+						<div style="border:solid 6px #000;background-color:#000;height:168px;" class="float-left">
+							<img id="left" class="move" alt="" src="../res/img/left.png" style="margin-top:60px;" />
+						</div>
+						<div id="viewer" style="border:solid 6px #000;min-width:300px;height:168px;width:300px;margin:0 auto;position:relative;" class="float-left">
+							<img id="imgA" alt="" src="../res/img/1pxtransparent.png" style="position:absolute;left:0;top:0;height:168px;width:300px;" />
+							<img id="imgB" alt="" src="../res/img/1pxtransparent.png" style="position:absolute;left:0;top:0;height:168px;width:300px;" />
+						</div>
+						<div style="border:solid 6px #000;background-color:#000;height:168px;" class="float-left">
+							<img id="right" class="move" alt="" src="../res/img/right.png" style="margin-top:60px" />
+						</div>
+						<div class="clear"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

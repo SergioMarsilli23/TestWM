@@ -1,0 +1,109 @@
+
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="es">
+	<head profile="http://gmpg.org/xfn/11">
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta charset="UTF-8" />
+		
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<title>Demos</title>
+		
+		<meta http-equiv="imagetoolbar" content="no" />
+		<meta name="viewport" content="width=device-width" />
+		
+		<link href="../res/css/reset.css" rel="stylesheet" type="text/css" media="all" />
+		<link href="../res/css/layout.css" rel="stylesheet" type="text/css" media="all" />
+		
+		<style type="text/css">
+			.workbox {width:300px;height:300px;display:block;background-color:#fff;margin:0 auto;position:relative;}
+			.line {background-color:#000;position:absolute;height:2px;}
+			.number {font-size:8px;font-family:arial;line-height:8px;display:inline-block;position:absolute;}
+		</style>
+		
+		<script type="text/javascript">
+		/* <![CDATA[ */
+			setTimeout(function(){
+				putNumbers();
+				setInterval(function(){createWatch();},1000);
+			},500);
+		
+			function putNumbers() {
+				var x,y,e;
+				var numbers = [12,1,2,3,4,5,6,7,8,9,10,11];
+				
+				for (i=0;i<numbers.length;++i) {
+					x = 150+130*Math.cos((numbers[i]%12)*30*Math.PI/180 - Math.PI/2);
+					y = 150+130*Math.sin((numbers[i]%12)*30*Math.PI/180 - Math.PI/2);
+					e = document.getElementById("num_"+numbers[i]);
+					e.style.left = x+"px";
+					e.style.top = y+"px";
+				}
+			}
+		
+			function createWatch(){
+				var date = new Date();
+				var x2,y2;
+				
+				var angle = date.getSeconds()*6*Math.PI/180 - Math.PI/2;
+				x2 = 150+100*Math.cos(angle);
+				y2 = 150+100*Math.sin(angle);
+				createLine(150,150,x2,y2,"msec");
+				
+				var angle = date.getMinutes()*6*Math.PI/180 - Math.PI/2;
+				x2 = 150+85*Math.cos(angle);
+				y2 = 150+85*Math.sin(angle);
+				createLine(150,150,x2,y2,"mmin");
+				
+				var angle = (date.getHours()%12)*30*Math.PI/180 - Math.PI/2;
+				x2 = 150+70*Math.cos(angle);
+				y2 = 150+70*Math.sin(angle);
+				createLine(150,150,x2,y2,"mhour");
+			}
+		
+			function createLine(x1,y1,x2,y2,lineId) {
+				distance = Math.sqrt(Math.pow(x1-x2,2)+Math.pow(y1-y2,2));
+				//alert(distance);
+				xMid = (x1+x2)/2;
+				yMid = (y1+y2)/2;
+				salopeInRadian = Math.atan2(y1-y2,x1-x2);
+				salopeInDegrees = (salopeInRadian*180)/Math.PI;
+				//alert(Math.PI);
+				line = document.getElementById(lineId);
+				//alert(line);
+				line.style.width = distance+"px";
+				line.style.top = yMid+"px";
+				line.style.left = (xMid-(distance/2))+"px";
+				line.style.transform = "rotate("+salopeInDegrees+"deg)";
+			}
+		/* ]]> */
+		</script>
+
+		
+	</head>
+	<body>
+		<div id="wrapper">
+			<div id="container">
+				<h1 class="center title">Reloj</h1>
+				<div class="content">
+					<div class="workbox">
+						<div class="line" id="mhour"></div>
+						<div class="line" id="mmin"></div>
+						<div class="line" id="msec"></div>
+						<div class="number" id="num_12">12</div>
+						<div class="number" id="num_1">1</div>
+						<div class="number" id="num_2">2</div>
+						<div class="number" id="num_3">3</div>
+						<div class="number" id="num_4">4</div>
+						<div class="number" id="num_5">5</div>
+						<div class="number" id="num_6">6</div>
+						<div class="number" id="num_7">7</div>
+						<div class="number" id="num_8">8</div>
+						<div class="number" id="num_9">9</div>
+						<div class="number" id="num_10">10</div>
+						<div class="number" id="num_11">11</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
